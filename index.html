@@ -7,6 +7,13 @@
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
+<script>
+// ★すでに認証済みならスキップ
+if(sessionStorage.getItem("auth") === "ok"){
+  location.href = "page.html";
+}
+</script>
+
 <style>
 body{
   margin:0;
@@ -25,7 +32,6 @@ body{
   border-radius:12px;
   text-align:center;
 }
-
 button{
   margin-top:20px;
   padding:12px 25px;
@@ -33,12 +39,7 @@ button{
   border-radius:6px;
   background:#22c55e;
   color:#fff;
-  font-size:16px;
   cursor:pointer;
-}
-
-button:hover{
-  background:#16a34a;
 }
 </style>
 </head>
@@ -47,8 +48,7 @@ button:hover{
 
 <div class="box">
   <h2>セキュリティ確認</h2>
-  <h3>知識部</h3>
-  <p>チェックしてから続行してください</p>
+  <p>チェックしてから続行</p>
 
   <!-- ★サイトキー -->
   <div class="g-recaptcha" data-sitekey="6LckkJAsAAAAALLaRuivOB9n1airWhfHGCI3LbW1"></div>
@@ -66,11 +66,20 @@ function go(){
     return;
   }
 
-  // 認証通過フラグ
-  localStorage.setItem("auth","ok");
+  // 認証成功
+  sessionStorage.setItem("auth","ok");
 
-  // 次のページ
+  // トークンリセット（超重要）
+  grecaptcha.reset();
+
   location.href = "page.html";
+}
+
+// ページ戻ったとき用リセット
+window.onload = function(){
+  if(typeof grecaptcha !== "undefined"){
+    grecaptcha.reset();
+  }
 }
 </script>
 
