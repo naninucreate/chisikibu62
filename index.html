@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>セキュリティ確認</title>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0f172a;
+  color:#fff;
+  font-family:sans-serif;
+}
+
+.box{
+  background:#1e293b;
+  padding:40px;
+  border-radius:12px;
+  text-align:center;
+}
+
+button{
+  margin-top:20px;
+  padding:12px 25px;
+  border:none;
+  border-radius:6px;
+  background:#22c55e;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#16a34a;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>セキュリティ確認</h2>
+  <p>チェックしてから続行してください</p>
+
+  <!-- ★サイトキー -->
+  <div class="g-recaptcha" data-sitekey="6LckkJAsAAAAALLaRuivOB9n1airWhfHGCI3LbW1"></div>
+
+  <br>
+  <button onclick="go()">続行</button>
+</div>
+
+<script>
+function go(){
+  const token = grecaptcha.getResponse();
+
+  if(!token){
+    alert("チェックしてね");
+    return;
+  }
+
+  // 認証通過フラグ
+  localStorage.setItem("auth","ok");
+
+  // 次のページ
+  location.href = "page.html";
+}
+</script>
+
+</body>
+</html>
